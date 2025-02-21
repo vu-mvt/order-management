@@ -10,6 +10,9 @@ module.exports = cds.service.impl(async function () {
         console.log("Test build CI/CD for CAP project");
         // add v2
         console.log("Check auto script");
+
+        // add v3
+        console.log("Check auto script v3");
         
         return next();
     })
