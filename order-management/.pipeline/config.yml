@@ -1,37 +1,37 @@
----
-general:
-  buildTool: "mta"
-service:
-  buildToolVersion: "MBTJ21N22"
-  stages:
-    Release:
-      cfCredentialsId: "cf"
-stages:
-  Build:
-    mavenExecuteStaticCodeChecks: false
-    npmExecuteLint: true
-  Acceptance:
-    cloudFoundryDeploy: false
-    npmExecuteEndToEndTests: false
-  Malware Scan:
-    malwareExecuteScan: false
-  Release:
-    tmsExport: false
-    tmsUpload: false
-    cfApiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
-    cfOrg: "6041b283trial"
-    cfSpace: "dev"
-    deployType: "standard"
-    cloudFoundryDeploy: true
+# ---
+# general:
+#   buildTool: "mta"
+# service:
+#   buildToolVersion: "MBTJ21N22"
+#   stages:
+#     Release:
+#       cfCredentialsId: "cf"
+# stages:
+#   Build:
+#     mavenExecuteStaticCodeChecks: false
+#     npmExecuteLint: true
+#   Acceptance:
+#     cloudFoundryDeploy: false
+#     npmExecuteEndToEndTests: false
+#   Malware Scan:
+#     malwareExecuteScan: false
+#   Release:
+#     tmsExport: false
+#     tmsUpload: false
+#     cfApiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
+#     cfOrg: "6041b283trial"
+#     cfSpace: "dev"
+#     deployType: "standard"
+#     cloudFoundryDeploy: true
     
-  Additional Unit Tests:
-    npmExecuteScripts: false
-  Compliance:
-    sonarExecuteScan: false
-steps:
-  cloudFoundryDeploy:
-    mtaDeployParameters: "-f --version-rule ALL"
-  npmExecuteLint:
-    failOnError: true
-  artifactPrepareVersion:
-    versioningType: "cloud_noTag"
+#   Additional Unit Tests:
+#     npmExecuteScripts: false
+#   Compliance:
+#     sonarExecuteScan: false
+# steps:
+#   cloudFoundryDeploy:
+#     mtaDeployParameters: "-f --version-rule ALL"
+#   npmExecuteLint:
+#     failOnError: true
+#   artifactPrepareVersion:
+#     versioningType: "cloud_noTag"
