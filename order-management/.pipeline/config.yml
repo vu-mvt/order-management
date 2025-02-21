@@ -10,10 +10,6 @@ stages:
   Build:
     mavenExecuteStaticCodeChecks: false
     npmExecuteLint: true
-    dockerImage: "devxci/mbtci:latest"   # Image có sẵn mbt
-    command: "mbt build --mtar myApp.mtar"
-  Deploy:
-    command: "cf deploy myApp.mtar"
   Acceptance:
     cloudFoundryDeploy: false
     npmExecuteEndToEndTests: false
