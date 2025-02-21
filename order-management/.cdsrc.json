@@ -1,0 +1,12 @@
+{
+    "requires": {
+        "[hybird]": {
+            "db": {
+                "kind": "hana",
+                "credentials": {
+                    "database": "order-management-db"
+                }
+            }
+        }
+    }
+}

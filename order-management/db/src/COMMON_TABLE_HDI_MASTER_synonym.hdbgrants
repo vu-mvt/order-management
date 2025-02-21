@@ -1,0 +1,14 @@
+{
+    "hdi_db": {
+        "object_owner": {
+            "container_roles": [
+                "EXTERNAL_TABLE_ACCESS_G#"
+            ]
+        },
+        "application_user": {
+            "container_roles": [
+                "EXTERNAL_TABLE_ACCESS"
+            ]
+        }
+    }
+}

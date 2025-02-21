@@ -1,0 +1,5 @@
+orderID;customerID;employeeID;orderDate;requiredDate;shippedDate;shipVia;freight;shipName;shipAddress;shipCity;shipRegion;shipPostalCode;shipCountry
+10248;ALFKI;5;1996-07-04T00:00:00;1996-08-01T00:00:00;1996-07-16T00:00:00;3;32.3800;Vins et alcools Chevalier;59 rue de l'Abbaye;Reims;;51100;France
+10249;TOMSP;6;1996-07-05T00:00:00;1996-08-16T00:00:00;1996-07-10T00:00:00;1;11.6100;Toms Spezialitäten;Luisenstr. 48;Münster;Lyon;44087;Germany
+10250;HANAR;4;1996-07-08T00:00:00;1996-08-05T00:00:00;1996-07-12T00:00:00;2;65.8300;Hanari Carnes;Rua do Paço;67;Rio de Janeiro;RJ;Brazil
+10251;VICTE;3;1996-07-08T00:00:00;1996-08-05T00:00:00;1996-07-15T00:00:00;1;41.3400;Victuailles en stock;2;rue du Commerce;Lyon;52434;Brazil

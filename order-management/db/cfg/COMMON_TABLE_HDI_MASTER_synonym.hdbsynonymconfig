@@ -1,0 +1,8 @@
+{
+    "COMMON_TABLE_HDI_MASTER": {
+        "target": {
+            "object": "COMMON_TABLE_HDI_MASTER",
+            "schema.configure": "hdi_db-hdi/schema"
+        }
+    }
+}

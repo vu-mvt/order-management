@@ -1,0 +1,148 @@
+_schema-version: 3.3.0
+ID: order-management
+description: A simple CAP project.
+version: 1.0.0
+modules:
+  - name: order-management-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: order-management-db
+      - name: order-management-auth
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-http-endpoint: /health
+      readiness-health-check-type: http
+    build-parameters:
+      builder: npm
+  - name: order-management-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: order-management-db
+        properties:
+          TARGET_CONTAINER: ~{hdi-service-name}
+      - name: hdi_db #implement synonyms -S
+        group: SERVICE_REPLACEMENTS
+        properties:
+          key: hdi_db-hdi
+          service: ~{hdi_db-hdi} #implement synonyms -E
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: order-management-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: order-management-destination-service
+        parameters:
+          content-target: true
+      - name: order-management_html_repo_host
+        parameters:
+          service-key:
+            name: order-management_html_repo_host-key
+      - name: order-management-auth
+        parameters:
+          service-key:
+            name: order-management-auth-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: order_management_order_management_html_repo_host
+              ServiceInstanceName: order-management-html5-app-host-service
+              ServiceKeyName: order-management_html_repo_host-key
+              sap.cloud.service: order-management
+            - Authentication: OAuth2UserTokenExchange
+              Name: order_management_order_management_auth
+              ServiceInstanceName: order-management-auth
+              ServiceKeyName: order-management-auth-key
+              sap.cloud.service: order-management
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: order-management-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: order-management_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - ordermanagement.zip
+          name: ordermanagement
+          target-path: resources/
+  - name: ordermanagement
+    type: html5
+    path: app/order-management
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms: []
+resources:
+  - name: order-management-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      # config:
+      #   database_id: 99caa31f-67fe-44e1-9c56-f4c219a8994b
+      #   schema: BTP_ORDER_HANA_DB
+      service: hana
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: ${service-name} #implement synonyms
+  - name: order-management-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: order-management-${org}-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+  - name: order-management-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: order-management-destination-service
+      service-plan: lite
+  - name: order-management_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: order-management-html5-app-host-service
+      service-plan: app-host
+  - name: hdi_db # implement synonyms
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: hdi_db
+    properties:
+      hdi_db-hdi: ${service-name}
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
