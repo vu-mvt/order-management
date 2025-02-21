@@ -8,6 +8,9 @@ module.exports = cds.service.impl(async function () {
         console.log("on read order");
         // add new
         console.log("Test build CI/CD for CAP project");
-        return next()
+        // add v2
+        console.log("Check auto script");
+        
+        return next();
     })
 });
