@@ -11,8 +11,6 @@ service:
       credentialVariables:
       - name: "CF_CREDENTIALSID"
         credentialId: "cf"
-      runFirst:
-        command: "cd order-management"
 stages:
   Build:
     mavenExecuteStaticCodeChecks: false
