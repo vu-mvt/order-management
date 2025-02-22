@@ -19,6 +19,9 @@ module.exports = cds.service.impl(async function () {
         
         // add v5
         console.log("Check auto script v5 CI/CD");
+
+        // add v6
+        console.log("Check auto script v6 CI/CD");
         
         return next();
     })
